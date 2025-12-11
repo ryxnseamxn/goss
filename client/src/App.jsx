@@ -15,7 +15,6 @@ function ProtectedRoute({ children }) {
 }
 
 export default function App() {
-  // Sync user to local database after Auth0 login
   useUserSync();
   const { isAuthenticated, isLoading } = useAuth0();
   

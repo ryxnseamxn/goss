@@ -12,20 +12,18 @@ public class UserService
         _context = context;
     }
 
-    // Get or create user by email (called when user logs in via Auth0)
     public async Task<User> GetOrCreateUserAsync(string email, string? username = null)
     {
         var user = await _context.Users.FindAsync(email);
         
         if (user == null)
         {
-            // Create new user with default role
             user = new User
             {
                 Email = email,
                 Username = username ?? email.Split('@')[0],
-                Phone = 0, // Set default or make nullable
-                Role = UserRole.User // Default role
+                Phone = 0,
+                Role = UserRole.User
             };
             
             _context.Users.Add(user);

@@ -10,7 +10,7 @@ export default defineConfig({
     tailwindcss()
   ],
   server: {
-    host: '0.0.0.0', // Listen on all network interfaces
+    host: '0.0.0.0',
     https: {
       key: fs.readFileSync('./localhost-key.pem'),
       cert: fs.readFileSync('./localhost.pem')

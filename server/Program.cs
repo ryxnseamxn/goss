@@ -11,7 +11,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ChatRoomManager>();
 
-// Add database context and user service
 builder.Services.AddDbContext<GossContext>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<MessageService>();
@@ -40,8 +39,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Listen on all network interfaces on port 5248 with HTTPS
-// Uses custom certificate with IP address in SAN for cross-machine access
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.ListenAnyIP(5248, listenOptions =>
@@ -68,10 +65,6 @@ else
     app.UseCors("ProdPolicy");
 }
 
-
-// app.UseHttpsRedirection();
-// Enable CORS so the React dev server (http://localhost:3000) can
-// negotiate with SignalR and call controller endpoints.
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/chat");

@@ -61,7 +61,6 @@ const ChatRoom = () => {
             });
 
             if (response.ok) {
-                // The RoomDeleted SignalR event will handle navigation
                 console.log('Room deleted successfully');
             } else {
                 const text = await response.text();
@@ -74,7 +73,6 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
-        // Fetch user role
         const fetchUserRole = async () => {
             try {
                 const response = await fetch(`${backendBase}:5248/api/user/${user.email}`);
@@ -105,7 +103,6 @@ const ChatRoom = () => {
                 setMessages(prev => [...prev, classifiedMessage])
             });
 
-            // Listen for room deletion - redirect all users back to rooms page
             conn.on("RoomDeleted", (deletedRoomId) => {
                 if (deletedRoomId === roomIdParam) {
                     navigate('/rooms');
@@ -132,7 +129,6 @@ const ChatRoom = () => {
                 }
                 console.log(`Joined room ${roomIdParam}`);
                 
-                // Fetch room name and message history
                 try {
                     const roomsResponse = await fetch(`${backendBase}:5248/api/chatrooms`);
                     if (roomsResponse.ok) {

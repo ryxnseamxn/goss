@@ -37,22 +37,18 @@ const Rooms = () => {
                 })
                 .build();
 
-            // Listen for new rooms being created
             conn.on("RoomCreated", (room) => {
                 setRooms(prev => {
-                    // Prevent duplicates
                     const exists = prev.some(r => r.roomId === room.roomId);
                     if (exists) return prev;
                     return [...prev, room];
                 });
             });
 
-            // Listen for rooms being deleted
             conn.on("RoomDeleted", (roomId) => {
                 setRooms(prev => prev.filter(r => r.roomId !== roomId));
             });
 
-            // Listen for room updates (user count changes)
             conn.on("RoomUpdated", (room) => {
                 setRooms(prev => prev.map(r => 
                     r.roomId === room.roomId 
@@ -67,7 +63,6 @@ const Rooms = () => {
                 setConnection(conn);
                 setIsConnected(true);
                 
-                // Fetch existing rooms
                 await fetchRooms();
             } catch (err) {
                 console.error("SignalR connection error:", err);
@@ -83,14 +78,12 @@ const Rooms = () => {
         };
     }, []);
 
-    // Refetch rooms when component becomes visible (e.g., navigating back from chat room)
     useEffect(() => {
         if (isConnected) {
             fetchRooms();
         }
     }, [isConnected]);
 
-    // Refetch rooms when window gains focus or user navigates back
     useEffect(() => {
         const handleFocus = () => {
             if (isConnected) {
@@ -99,7 +92,6 @@ const Rooms = () => {
         };
 
         window.addEventListener('focus', handleFocus);
-        // Also fetch when this component mounts (user navigated here)
         if (isConnected) {
             fetchRooms();
         }

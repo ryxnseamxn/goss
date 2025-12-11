@@ -47,7 +47,6 @@ public class ChatRoomController : ControllerBase
         if (!_manager.CreateRoom(roomId, roomId))
             return Conflict("Room already exists.");
 
-        // Broadcast room creation to all connected clients
         await _hub.Clients.All.SendAsync("RoomCreated", new { roomId, roomName = roomId, userCount = 0 });
 
         return Ok("Room created.");
@@ -61,7 +60,6 @@ public class ChatRoomController : ControllerBase
         if (!_manager.CreateRoom(roomId, request.RoomName))
             return Conflict("Failed to create room.");
 
-        // Broadcast room creation to all connected clients
         await _hub.Clients.All.SendAsync("RoomCreated", new { roomId, roomName = request.RoomName, userCount = 0 });
 
         return Ok(new { roomId, roomName = request.RoomName });
@@ -77,10 +75,8 @@ public class ChatRoomController : ControllerBase
 
         try
         {
-            // Save message to database
             var message = await _messageService.AddMessageAsync(roomId, messageDto.Username, messageDto.Email, messageDto.Message);
 
-            // Broadcast message to all clients in the room
             await _hub.Clients.Group(roomId).SendAsync("ReceiveMessage", messageDto);
 
             return Ok("Message Sent");
@@ -102,10 +98,8 @@ public class ChatRoomController : ControllerBase
         if (!_manager.DeleteRoom(roomId))
             return NotFound("Room does not exist.");
 
-        // Delete all messages for this room
         await _messageService.DeleteMessagesByRoomAsync(roomId);
 
-        // Broadcast room deletion to all connected clients (including those in the room)
         await _hub.Clients.All.SendAsync("RoomDeleted", roomId);
 
         return Ok("Room deleted.");

@@ -18,7 +18,6 @@ public class ChatHub : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
         _rooms.AddUserToRoom(roomId, Context.ConnectionId);
         
-        // Broadcast updated user count
         await Clients.All.SendAsync("RoomUpdated", new RoomInfo
         {
             RoomId = roomId,
@@ -34,7 +33,6 @@ public class ChatHub : Hub
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
         _rooms.RemoveUserFromRoom(roomId, Context.ConnectionId);
         
-        // Broadcast updated user count
         await Clients.All.SendAsync("RoomUpdated", new RoomInfo
         {
             RoomId = roomId,
@@ -51,7 +49,6 @@ public class ChatHub : Hub
         {
             _rooms.RemoveUserFromRoom(roomId, Context.ConnectionId);
             
-            // Broadcast updated user count
             await Clients.All.SendAsync("RoomUpdated", new RoomInfo
             {
                 RoomId = roomId,

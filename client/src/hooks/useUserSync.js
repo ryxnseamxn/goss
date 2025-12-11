@@ -1,5 +1,3 @@
-// Example: Add this to your Login component or after Auth0 authentication
-
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect } from 'react';
 
@@ -36,6 +34,3 @@ export function useUserSync() {
     syncUser();
   }, [isAuthenticated, user]);
 }
-
-// Usage in your App or Profile component:
-// useUserSync();

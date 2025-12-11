@@ -1,7 +1,7 @@
 public class ChatRoomManager
 {
     private readonly Dictionary<string, HashSet<string>> _rooms = new();
-    private readonly Dictionary<string, string> _roomNames = new(); // roomId -> roomName
+    private readonly Dictionary<string, string> _roomNames = new();
     public IReadOnlyDictionary<string, HashSet<string>> Rooms => _rooms;
     public IReadOnlyDictionary<string, string> RoomNames => _roomNames;
 
