@@ -1,15 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.VisualBasic;
+using Microsoft.EntityFrameworkCore;
 
 namespace server.Model;
 
 public class User
 {
-
-
-
-    public Guid Id { get; set; } = Guid.NewGuid(); 
+    [Key]
+    [Required]
+    public required string Email { get; set; }
     [Required]
     public int Phone { get; set; }
     [Required]
